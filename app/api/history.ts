@@ -7,7 +7,7 @@ function getPastDate(day: number): string {
   return date.toISOString().split('T')[0];
 }
 export function useHistory() {
-  const url = 'http://api.weatherapi.com/v1';
+  const url = 'https://api.weatherapi.com/v1';
   const apiKey = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
   const {city,cityCoordinates} = useCityStore();
   const date = new Date();
