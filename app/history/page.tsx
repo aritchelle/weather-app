@@ -26,7 +26,12 @@ const Page = () => {
       lows: []
     }
   }
-
+  /**
+   *
+   * @param unit The unit that the user's selected, ex. symbol C,F,K.
+   * @param type the key that we want to fetch from the API ex.max/min.
+   * @returns What key from the API will be used; ex. maxtemp_c or mintemp_c
+   */
   const selectUnit=(unit: string, type: string)=> {
     switch (unit.toLowerCase()) {
       case 'metric':
@@ -38,6 +43,13 @@ const Page = () => {
           }
         }
 
+        /**
+         * since we're just using the free tier version,
+         * we will just filter the necessary  information for our component,
+         * and return only what is needed to feed for Chart.js
+         * we only need dates, highs, and lows for Chart,
+         * those the key we need is dates, maxtemp, mintemp and the sufix unit which is c/f
+         */
         data?.forecast?.forecastday?.map((item: any) => {
           if(item.date) tempData.temperatureData.dates = [...tempData.temperatureData.dates,item.date];
           if(item.day[selectUnit(unit, 'max' )]){
