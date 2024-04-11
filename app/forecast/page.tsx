@@ -34,8 +34,12 @@ function Page() {
 
   const forecastData = data?.list || [];
 
-  const extractDate = (data: number) => {
-    const d = new Date(data * 1000);
+  /**
+   * @param data date in seconds
+   * to be converted into readable date.
+  */
+  const extractDate = (date: number) => {
+    const d = new Date(date * 1000);
     return new Intl.DateTimeFormat(undefined,{hour: 'numeric', minute: '2-digit', hour12: true }).format(d)
   }
 
@@ -44,6 +48,7 @@ function Page() {
     return new Intl.DateTimeFormat(undefined,options).format(newDate)
   }
 
+
   forecastData?.forEach((item: any)=> {
     const date = new Date(item.dt_txt).toLocaleDateString();
       if (!uniqueDates.includes(date)) {
@@ -51,6 +56,11 @@ function Page() {
       }
   })
 
+  /**
+   * free tier for openweathermap api don't allow us to fetch on a daily basis
+   * the forecast return data is 3 hours 5 days,
+   * we only need 1 data on each day.
+   */
   const filtered = uniqueDates.map((date) => {
     const filteredItem = forecastData.find((item: any) => {
       return new Date(item.dt_txt).toLocaleDateString() === date;
